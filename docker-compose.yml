@@ -1,0 +1,38 @@
+version: "3"
+services:
+  traefik:
+    image: traefik:chevrotin
+    container_name: traefik
+    command:
+      # docker backend
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      # dynamic configuration
+      - "--providers.file.directory=/dc"
+      # redirect http to https
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.websecure.address=:443"
+      # enable TLS
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.options=modern"
+      # Let's encrypt
+      - "--entrypoints.websecure.http.tls.certresolver=le"
+      - "--certificatesresolvers.le.acme.tlschallenge=true"
+      - "--certificatesresolvers.le.acme.email=whoami@domain.localhost"
+      - "--certificatesresolvers.le.acme.storage=/le/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./dc:/dc"
+      - "./le:/le"
+
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.domain.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
