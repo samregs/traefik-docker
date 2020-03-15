@@ -1,3 +1,19 @@
+# set security headers in middleware
+[http]
+  [http.middlewares]
+    [http.middlewares.security-headers]
+      [http.middlewares.security-headers.headers]
+        stsSeconds = 31536000
+        stsIncludeSubdomains = true
+        frameDeny = true
+        customFrameOptionsValue = "SAMEORIGIN"
+        contentTypeNosniff = true
+        browserXssFilter = true
+        contentSecurityPolicy = "default-src 'self'"
+        referrerPolicy = "same-origin"
+        featurePolicy = "vibrate 'none';"
+
+# set TLS options according to Mozilla SSL config
 [tls]
   [tls.options]
     [tls.options.default]
