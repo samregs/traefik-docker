@@ -15,9 +15,9 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # enable HTTPS entrypoint
       - "--entrypoints.websecure.address=:443"
-      # enable security headers with middleware headers
-      - "--entrypoints.websecure.http.middlewares=security-headers@file"
-      # enable TLS and choose modern settings
+      # set HSTS headers with middleware
+      - "--entrypoints.websecure.http.middlewares=hsts-headers@file"
+      # enable TLS
       - "--entrypoints.websecure.http.tls=true"
       # Let's encrypt SSL certificate
       - "--entrypoints.websecure.http.tls.certresolver=le"

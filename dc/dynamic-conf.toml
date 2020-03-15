@@ -1,19 +1,22 @@
-# set security headers in middleware
+# set HSTS headers in middleware
+# follow recommendations from https://infosec.mozilla.org/guidelines/web_security
 [http]
   [http.middlewares]
-    [http.middlewares.security-headers]
-      [http.middlewares.security-headers.headers]
-        stsSeconds = 31536000
+    [http.middlewares.hsts-headers]
+      [http.middlewares.hsts-headers.headers]
+        stsSeconds = 15768000
         stsIncludeSubdomains = true
+        # stsPreload = true # only if site is on the HSTS preload list
         frameDeny = true
-        customFrameOptionsValue = "SAMEORIGIN"
+        customFrameOptionsValue = "DENY"
         contentTypeNosniff = true
         browserXssFilter = true
-        contentSecurityPolicy = "default-src 'self'"
+        contentSecurityPolicy = "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'" # do not load any resources and disable framing
         referrerPolicy = "same-origin"
         featurePolicy = "vibrate 'none';"
 
 # set TLS options according to Mozilla SSL config
+# using intermediate settings as default
 [tls]
   [tls.options]
     [tls.options.default]
