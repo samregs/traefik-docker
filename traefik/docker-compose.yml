@@ -15,14 +15,12 @@ services:
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # enable HTTPS entrypoint
       - "--entrypoints.websecure.address=:443"
-      # set HSTS headers with middleware
-      - "--entrypoints.websecure.http.middlewares=hsts-headers@file"
       # enable TLS
       - "--entrypoints.websecure.http.tls=true"
       # Let's encrypt SSL certificate
       - "--entrypoints.websecure.http.tls.certresolver=le"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
-      - "--certificatesresolvers.le.acme.email=whoami@domain.localhost"
+      - "--certificatesresolvers.le.acme.email=name@domain.localhost"
       - "--certificatesresolvers.le.acme.storage=/le/acme.json"
     ports:
       - "80:80"
@@ -31,11 +29,3 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./dc:/dc"
       - "./le:/le"
-
-  whoami:
-    image: containous/whoami
-    container_name: whoami
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.whoami.rule=Host(`whoami.domain.localhost`)"
-      - "traefik.http.routers.whoami.entrypoints=websecure"

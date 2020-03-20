@@ -1,0 +1,11 @@
+version: "3"
+services:
+  whoami:
+    image: containous/whoami
+    container_name: whoami
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`whoami.domain.localhost`)"
+      - "traefik.http.routers.whoami.entrypoints=websecure"
+      # set HSTS headers with middleware
+      - "traefik.http.routers.whoami.middlewares=hsts-headers@file"
