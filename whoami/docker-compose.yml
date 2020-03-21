@@ -1,11 +1,18 @@
-version: "3"
+version: "3.7"
 services:
   whoami:
     image: containous/whoami
     container_name: whoami
+    networks:
+      - outside
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.whoami.rule=Host(`whoami.domain.localhost`)"
       - "traefik.http.routers.whoami.entrypoints=websecure"
       # set HSTS headers with middleware
       - "traefik.http.routers.whoami.middlewares=hsts-headers@file"
+
+networks:
+  outside:
+    external: true
+    name: traefik-outside-net
