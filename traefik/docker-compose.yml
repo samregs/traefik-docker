@@ -12,7 +12,9 @@ services:
       - "--providers.docker.exposedbydefault=false"
       # dynamic configuration folder
       - "--providers.file.directory=/dc"
-      # redirect HTTP to HTTPS
+      # enable dashboard
+      - "--api"
+      # enable HTTP entrypoint and redirect to HTTPS
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       # enable HTTPS entrypoint
@@ -31,7 +33,17 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./dc:/dc"
       - "./le:/le"
+    labels:
+      - "traefik.enable=true"
+      # configure the access to the dashboard
+      - "traefik.http.routers.traefik.rule=Host(`api.domain.localhost`)"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      # authentication user/hashed-password for dashboard
+      - "traefik.http.routers.traefik.middlewares=authtraefik"
+      - "traefik.http.middlewares.authtraefik.basicauth.users=user:hashed-password"
 
+# create a network to the outside for traefik
 networks:
   outside:
     name: traefik-outside-net

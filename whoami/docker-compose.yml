@@ -12,6 +12,7 @@ services:
       # set HSTS headers with middleware
       - "traefik.http.routers.whoami.middlewares=hsts-headers@file"
 
+# attach to the outside network
 networks:
   outside:
     external: true
