@@ -3,6 +3,7 @@ services:
   traefik:
     image: traefik:chevrotin
     container_name: traefik
+    restart: unless-stopped
     networks:
       - outside
     command:
@@ -13,18 +14,20 @@ services:
       # dynamic configuration folder
       - "--providers.file.directory=/dc"
       # enable HTTP entrypoint and redirect to HTTPS
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
+      - "--entrypoints.http.address=:80"
+      - "--entrypoints.http.http.redirections.entrypoint.to=https"
+      - "--entrypoints.http.http.redirections.entrypoint.scheme=https"
       # enable HTTPS entrypoint
-      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.https.address=:443"
       # enable TLS
-      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.https.http.tls=true"
       # Let's encrypt SSL certificate
-      - "--entrypoints.websecure.http.tls.certresolver=le"
+      - "--entrypoints.https.http.tls.certresolver=le"
       - "--certificatesresolvers.le.acme.tlschallenge=true"
       - "--certificatesresolvers.le.acme.email=name@domain.localhost"
       - "--certificatesresolvers.le.acme.storage=/le/acme.json"
     ports:
+      - "80:80"
       - "443:443"
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
