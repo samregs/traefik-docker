@@ -4,7 +4,7 @@
   [http.middlewares]
     [http.middlewares.hsts-headers]
       [http.middlewares.hsts-headers.headers]
-        stsSeconds = 15768000
+        stsSeconds = 63072000
         stsIncludeSubdomains = true
         # stsPreload = true # only if site is on the HSTS preload list
         frameDeny = true
@@ -13,7 +13,10 @@
         browserXssFilter = true
         contentSecurityPolicy = "default-src 'none'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'" # do not load any resources and disable framing
         referrerPolicy = "same-origin"
-        featurePolicy = "vibrate 'none';"
+        featurePolicy = "camera 'none'; geolocation 'none'; microphone 'none'; payment 'none'; usb 'none'; vr 'none'; vibrate 'none'"
+        [http.middlewares.hsts-headers.headers.customResponseHeaders]
+          X-Powered-By = ""
+          X-Robots-Tag = "noindex, noarchive, nosnippet"
 
 # set TLS options according to Mozilla SSL config
 # using intermediate settings as default
