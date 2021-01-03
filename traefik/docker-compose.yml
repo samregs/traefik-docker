@@ -1,6 +1,6 @@
 services:
   traefik:
-    image: traefik:chevrotin
+    image: traefik:livarot
     container_name: traefik
     restart: unless-stopped
     networks:
