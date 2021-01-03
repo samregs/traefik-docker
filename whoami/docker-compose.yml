@@ -1,6 +1,6 @@
 services:
   whoami:
-    image: containous/whoami
+    image: containous/whoami:latest
     container_name: whoami
     restart: unless-stopped
     networks:
