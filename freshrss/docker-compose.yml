@@ -1,0 +1,23 @@
+services:
+  freshrss:
+    image: freshrss/freshrss:latest
+    container_name: freshrss
+    restart: unless-stopped
+    volumes:
+      - "./data:/var/www/FreshRSS/data"
+      - "./extensions:/var/www/FreshRSS/extensions"
+    networks:
+      - outside
+    environment:
+      - "CRON_MIN=*/20"
+      - "TZ=CET"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.freshrss.rule=Host(`rss.domain.localhost`)"
+      - "traefik.http.routers.freshrss.entrypoints=https"
+
+# attach to the outside network
+networks:
+  outside:
+    external: true
+    name: traefik-outside-net
