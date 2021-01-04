@@ -13,7 +13,7 @@ services:
       - "TZ=CET"
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.freshrss.rule=Host(`rss.domain.localhost`)"
+      - "traefik.http.routers.freshrss.rule=Host(`freshrss.domain.localhost`)"
       - "traefik.http.routers.freshrss.entrypoints=https"
 
 # attach to the outside network
