@@ -10,7 +10,7 @@ services:
       - outside
     environment:
       - "CRON_MIN=*/20"
-      - "TZ=CET"
+      - "TZ=UTC"
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.freshrss.rule=Host(`freshrss.domain.localhost`)"
