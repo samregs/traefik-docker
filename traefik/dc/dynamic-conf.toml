@@ -17,6 +17,7 @@
         [http.middlewares.hsts-headers.headers.customResponseHeaders]
           X-Powered-By = ""
           X-Robots-Tag = "noindex, noarchive, nosnippet"
+          Server = ""
 
 # set TLS options according to Mozilla SSL config
 # using intermediate settings as default
