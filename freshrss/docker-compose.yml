@@ -1,6 +1,6 @@
 services:
   freshrss:
-    image: freshrss/freshrss:latest
+    image: freshrss/freshrss:edge
     container_name: freshrss
     restart: unless-stopped
     volumes:
