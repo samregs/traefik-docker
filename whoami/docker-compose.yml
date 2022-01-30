@@ -12,6 +12,7 @@ services:
       # set HSTS headers with middleware
       - "traefik.http.routers.whoami.middlewares=hsts-headers@file"
       # set TLS options
+      - "traefik.http.routers.whoami.tls.certresolver=le"
       - "traefik.http.routers.whoami.tls.options=modern@file"
 
 # attach to the outside network

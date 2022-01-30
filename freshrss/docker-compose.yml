@@ -15,6 +15,9 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.freshrss.rule=Host(`freshrss.domain.localhost`)"
       - "traefik.http.routers.freshrss.entrypoints=https"
+      # set TLS options
+      - "traefik.http.routers.freshrss.tls.certresolver=le"
+      - "traefik.http.routers.freshrss.tls.options=modern@file"
 
 # attach to the outside network
 networks:
